@@ -14,7 +14,7 @@ import { ItemCreateComponent } from './item-create/item-create.component';
 
 const appRoutes: Routes = [
   {
-    path: 'mystore',
+    path: 'my-store',
     component: MyStoreComponent,
     data: { title: 'My Store' }
   },
@@ -24,7 +24,7 @@ const appRoutes: Routes = [
     data: { title: 'Add Item' }
   },
   { path: '',
-    redirectTo: '/store',
+    redirectTo: '/my-store',
     pathMatch: 'full'
   }
 ];
