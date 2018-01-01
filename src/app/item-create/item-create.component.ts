@@ -21,7 +21,7 @@ export class ItemCreateComponent implements OnInit {
     this.http.post('/api/item', this.item)
       .subscribe(res => {
         let id =res['_id'];
-        this.router.navigate(['/mystore']);
+        this.router.navigate(['/my-store']);
       }), (err) => {
         console.log(err);
       }
