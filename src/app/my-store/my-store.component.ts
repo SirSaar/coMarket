@@ -13,11 +13,12 @@ export class MyStoreComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.items=[];
     this.http.get('/api/item').subscribe(data => {
       this.items = data;
+      console.log("got items:",this.items)
     });
-
-    
   }
+
 
 }
