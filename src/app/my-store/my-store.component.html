@@ -1,27 +1,25 @@
 <!-- Page Content -->
 <div class="container">
   <!-- Page Heading -->
-  <h1 class="my-4">My Items 
-         <a [routerLink]="['/item-create']" class="btn btn-default btn-lg">  
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  <h3 class="my-4">My Items 
+        <a [routerLink]="['/item-create']" class="btn btn-default btn-lg" aria-hidden="true">  
+          <span class="glyphicon glyphicon-plus"></span>
         </a>
-        <small></small>
-  </h1>
+  </h3>
   <!-- Page Features -->
   <div class="row text-center" *ngFor="let rowItems of (items | split:4)"> 
     
     <div class="col-lg-3 col-md-6 mb-4" *ngFor="let item of rowItems[0]">
         
       <div class="card">
-        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <img class="card-img-top" src="/images/fifa18.jpeg" alt="No photo available" height="325" width="500">
         <div class="card-body">
-          <h4 class="card-title">{{item.title}}</h4>
-          <p class="card-text">{{item.description}}</p>
-          <h5 class="card-text">{{item.trader}}</h5>
+          <h5 class="card-title">{{item.title}}</h5>
+          <p class="card-text">Condition:{{item.condition}}</p>
         </div>
         <div class="card-footer">
           
-          <a [routerLink]="['/item-trade',item._id]" class="btn btn-primary">Trade!</a>
+          <a [routerLink]="['/item-trade',item._id]" class="btn btn-success">Trade!</a>
           <a [routerLink]="['/item-edit', item._id]"  class="btn btn-primary">Edit</a>
           
         </div>

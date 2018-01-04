@@ -1,0 +1,19 @@
+{
+    "cookieSecret":"dfkjdlsfjljklsdfj",
+    "facebook":{
+        "app_id":"394487584338989",
+        "app_secret":"ad9bd92277858b2a1f26ed275fb49738",
+        "callback":"http://localhost:3000/auth/facebook/callback"
+    },
+    "twitter":{
+        "consumer_key":"akeyishere",
+        "consumer_secret":"mysecretisbetterthanyoursecret",
+        "callback":"http://localhost:3000/auth/twitter/callback"
+    },
+    "mongo":{
+        "development":{
+            "connectionString":"mongodb://admin:admin@ds113136.mlab.com:13136/comarket"
+        },
+        "production":{}
+    }
+}
