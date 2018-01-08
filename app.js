@@ -3,23 +3,42 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-
-var routes = require('./routes.js');
+var flash     = require('connect-flash');
+var passport = require('passport');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var configDB = require('./config/database.js');
 var app = express();
+
+require('./config/passport')(passport); // pass passport for configuration
 
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://admin:admin@ds113136.mlab.com:13136/comarket', { useMongoClient: true, promiseLibrary: require('bluebird') })
+mongoose.connect(configDB.mongo.development.connectionString, { useMongoClient: true, promiseLibrary: require('bluebird') })
   .then(() =>  console.log('connection succesful'))
   .catch((err) => console.error(err));
 
 app.use(logger('dev'));
+app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
 app.use(express.static(path.join(__dirname, 'dist')));
 // app.use('/mystore', express.static(path.join(__dirname, 'dist')));
-app.use('/api', routes);
+
+
 app.use(express.static('public'));
+
+// required for passport
+app.use(session({    
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+var routes = require('./routes.js');
+app.use('/api', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

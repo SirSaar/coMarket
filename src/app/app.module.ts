@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { SplitPipe } from './split.pipe';
 import { ItemCreateComponent } from './item-create/item-create.component';
+import { PageNotFoundComponentComponent } from './page-not-found-component/page-not-found-component.component';
+import { ItemEditComponent } from './item-edit/item-edit.component';
 
 const appRoutes: Routes = [
   {
@@ -22,12 +24,18 @@ const appRoutes: Routes = [
   {
     path: 'item-create',
     component: ItemCreateComponent,
-    data: { title: 'Add Item' }
+    data: { title: 'Add New Item' }
+  },
+  {
+    path: 'item-edit/:id',
+    component: ItemEditComponent,
+    data: { title: 'Edit Item' }
   },
   { path: '',
     redirectTo: '/my-store',
     pathMatch: 'full'
-  }
+  },
+  { path: '**', component: PageNotFoundComponentComponent }
 ];
 
 @NgModule({
@@ -35,7 +43,9 @@ const appRoutes: Routes = [
     AppComponent,
     MyStoreComponent,
     SplitPipe,
-    ItemCreateComponent
+    ItemCreateComponent,
+    PageNotFoundComponentComponent,
+    ItemEditComponent
   ],
   imports: [
     BrowserModule,

@@ -11,10 +11,15 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
     <!-- Custom styles for this template -->
+    <!-- <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> -->
+    <!-- load fontawesome --> 
+    <!--<script src="https://use.fontawesome.com/adc2c523d8.js"></script>-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
   </head>
 
   <body>
-
+    <!-- optional for facebook login button: https://developers.facebook.com/docs/facebook-login/web/login-button  -->
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md bg-primary navbar-dark fixed-top">
       <div class="container">
@@ -23,22 +28,28 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home
+              <a class="nav-link" href="#">Store
                 <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
+              <a class="nav-link" href="#">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
             </li>
           </ul>
+          <span *ngIf="user">
+            <span class="navbar-text">Welcome {{user.facebook.name}} </span>
+            <span><a href="/api/user/logout" class="btn btn-danger btn-sm"><span class="fa fa-facebook"></span> Logout</a></span>
+          </span>
+          <span *ngIf="!(user)">
+            <span class="navbar-text">Login with: </span>
+            <span><a href="/api/user/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a></span>
+          </span>
+          
         </div>
       </div>
     </nav>
