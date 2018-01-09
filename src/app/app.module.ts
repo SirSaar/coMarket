@@ -14,6 +14,8 @@ import { SplitPipe } from './split.pipe';
 import { ItemCreateComponent } from './item-create/item-create.component';
 import { PageNotFoundComponentComponent } from './page-not-found-component/page-not-found-component.component';
 import { ItemEditComponent } from './item-edit/item-edit.component';
+import { ItemService } from './item.service';
+import { MarketComponent } from './market/market.component';
 
 const appRoutes: Routes = [
   {
@@ -45,7 +47,8 @@ const appRoutes: Routes = [
     SplitPipe,
     ItemCreateComponent,
     PageNotFoundComponentComponent,
-    ItemEditComponent
+    ItemEditComponent,
+    MarketComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,7 @@ const appRoutes: Routes = [
       { enableTracing: true } // <-- debugging purposes only
     )
   ],
-  providers: [{provide: APP_BASE_HREF, useValue : '/' }],
+  providers: [{provide: APP_BASE_HREF, useValue : '/'}, ItemService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

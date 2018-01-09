@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { ItemService } from '../item.service';
 
 @Component({
   selector: 'app-item-edit',
@@ -11,7 +11,7 @@ export class ItemEditComponent implements OnInit {
   item:any;
   title:any;
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
+  constructor(private itemService: ItemService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.item={};
@@ -20,13 +20,13 @@ export class ItemEditComponent implements OnInit {
   }
 
   getItem(id) {
-    this.http.get('/api/item/'+id).subscribe(data => {
+    this.itemService.getItem(id).subscribe(data => {
       this.item = data;
     });
   }
 
-  updateItem(id, data) {
-    this.http.put('/api/item/'+id, data)
+  updateItem(id) {
+    this.itemService.updateItem(id,this.item)
       .subscribe(res => {
           let id = res['_id'];
           this.router.navigate(['/my-store']);
@@ -37,7 +37,7 @@ export class ItemEditComponent implements OnInit {
   }
 
   deleteItem(id) {
-    this.http.delete('/api/item/'+id)
+    this.itemService.deleteItem(id)
       .subscribe(res => {
           this.router.navigate(['/my-store']);
         }, (err) => {

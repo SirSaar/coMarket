@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { ItemService } from '../item.service';
 
 @Component({
   selector: 'app-item-create',
@@ -12,21 +12,21 @@ export class ItemCreateComponent implements OnInit {
   item:any;
   title:any;
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
+  constructor(private itemService:ItemService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.title=this.route.snapshot.data.title;
     this.item = {};
   }
 
-  saveItem() {
-    //todo: add trader name and id
-    this.http.post('/api/item', this.item)
-      .subscribe(res => {
+  saveItem(){
+    this.itemService.saveItem(this.item).subscribe(
+      res => {
         let id =res['_id'];
         this.router.navigate(['/my-store']);
-      }), (err) => {
+      }, (err) => {
         console.log(err);
       }
+    );
   }
 }

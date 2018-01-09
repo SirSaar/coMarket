@@ -6,3 +6,16 @@ guide:
 
 
 routerLinkActive="active" for link class active
+
+ng g component
+ng g service --module=app
+ng new name_project
+
+Purpose of the app:
+1. enter "market"(that will be filtered by gps/location nearby,maybe value of your items,
+interest fields,and friends from facebook)
+2.choose item you want and press "trade"
+3.choose a group of items from my store that the other person could choose from
+4.the other person get a notification/mail that ask him if he wants to trade his item with the items that i chose.
+5.the other person choose item from my items 
+6. both persons get email/phone number of each other for trading
