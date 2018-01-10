@@ -19,6 +19,11 @@ import { MarketComponent } from './market/market.component';
 
 const appRoutes: Routes = [
   {
+    path: 'market',
+    component: MarketComponent,
+    data: { title: 'coMarket' }
+  },
+  {
     path: 'my-store',
     component: MyStoreComponent,
     data: { title: 'My Store' }
