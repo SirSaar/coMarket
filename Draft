@@ -2,7 +2,8 @@ template:
 https://startbootstrap.com/template-overviews/4-col-portfolio/
 
 guide:
-
+1.install @angular/cli
+2.npm install
 
 
 routerLinkActive="active" for link class active
