@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ItemService } from '../item.service';
+import { ItemService } from '../../item.service';
 
 @Component({
   selector: 'app-item-create',
@@ -21,9 +21,9 @@ export class ItemCreateComponent implements OnInit {
 
   saveItem(){
     this.itemService.saveItem(this.item).subscribe(
-      res => {
+      res => {    //res is the object that returns
         let id =res['_id'];
-        this.router.navigate(['/my-store']);
+        this.router.navigate(['../my-store'], { relativeTo: this.route });
       }, (err) => {
         console.log(err);
       }

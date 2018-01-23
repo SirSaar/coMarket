@@ -22,3 +22,11 @@ interest fields,and friends from facebook)
 6. both persons get email/phone number of each other for trading
 
 todo :borrow without exchanging
+
+pilot process of the app:
+1.user upload all items he will to trade
+2.user find item he would like to get from the market and click "trade"
+3.the other user get notification about the trade
+4.the other user enter the first user inventory and choose an item he wants. otherwise, he 
+decline the "request for trade" and asked why he declined it.
+5.if trade is done, each one get the other email

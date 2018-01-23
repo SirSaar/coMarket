@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { ItemService } from '../item.service';
+import { ItemService } from '../../item.service';
 
 @Component({
   selector: 'app-market',

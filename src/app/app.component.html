@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Market for trading everything">
-    <meta name="author" content="saar">
-
-    <title>coMarket</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-    <!-- Custom styles for this template -->
-    <!-- <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> -->
-    <!-- load fontawesome --> 
-    <!--<script src="https://use.fontawesome.com/adc2c523d8.js"></script>-->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-  </head>
-
-  <body>
+<body>
     <!-- optional for facebook login button: https://developers.facebook.com/docs/facebook-login/web/login-button  -->
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md bg-primary navbar-dark fixed-top">
@@ -33,19 +13,19 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item"  routerLinkActive="active">
-              <a class="nav-link" [routerLink]="['/my-store']">My Store</a>
+              <a class="nav-link" [routerLink]="['/personal/my-store']">My Store</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-              <a class="nav-link" [routerLink]="['/profile']">Profile</a>
+              <a class="nav-link" [routerLink]="['/personal/profile']">Profile</a>
             </li>
           </ul>
-          <span *ngIf="user">
-            <span class="navbar-text">Welcome {{user.facebook.name}} </span>
-            <span><a href="/api/user/logout" class="btn btn-danger btn-sm"><span class="fa fa-facebook"></span> Logout</a></span>
+          <span *ngIf="authService.isLoggedIn">
+            <span class="navbar-text">Welcome {{authService.userProfile.facebook.name}} </span>
+            <span><button (click)="logout()" class="btn btn-danger btn-sm"><span class="fa fa-facebook"></span> Logout</button></span>
           </span>
-          <span *ngIf="!(user)">
+          <span *ngIf="!(authService.isLoggedIn)">
             <span class="navbar-text">Login with: </span>
-            <span><a href="/api/user/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a></span>
+            <span><button (click)="login()" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</button></span>
           </span>
           
         </div>
@@ -69,6 +49,5 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 
 
-  </body>
-</html>
+</body>
 

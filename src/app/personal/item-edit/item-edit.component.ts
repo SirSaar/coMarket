@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ItemService } from '../item.service';
+import { ItemService } from '../../item.service';
 
 @Component({
   selector: 'app-item-edit',
@@ -19,9 +19,15 @@ export class ItemEditComponent implements OnInit {
     this.getItem(this.route.snapshot.params['id']);
   }
 
+  goBack() {
+    this.router.navigate(['../../my-store'], { relativeTo: this.route });
+  }
+
   getItem(id) {
     this.itemService.getItem(id).subscribe(data => {
       this.item = data;
+    }, (err) => {
+      this.goBack();
     });
   }
 
@@ -29,7 +35,7 @@ export class ItemEditComponent implements OnInit {
     this.itemService.updateItem(id,this.item)
       .subscribe(res => {
           let id = res['_id'];
-          this.router.navigate(['/my-store']);
+          this.goBack();
         }, (err) => {
           console.log(err);
         }
@@ -39,7 +45,7 @@ export class ItemEditComponent implements OnInit {
   deleteItem(id) {
     this.itemService.deleteItem(id)
       .subscribe(res => {
-          this.router.navigate(['/my-store']);
+          this.goBack();
         }, (err) => {
           console.log(err);
         }

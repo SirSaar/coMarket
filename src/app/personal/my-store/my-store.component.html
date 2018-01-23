@@ -2,7 +2,7 @@
 <div class="container">
   <!-- Page Heading -->
   <h3 class="my-4">{{title}}
-        <a [routerLink]="['/item-create']" class="btn btn-outline-default btn-lg">  
+        <a [routerLink]="['../item-create']" class="btn btn-outline-default btn-lg">  
           <i class="fa fa-plus" aria-hidden="true"></i></a>
   </h3>
   <!-- Page Features -->
@@ -18,10 +18,8 @@
           <p class="card-text">Condition:{{item.condition}}</p>
         </div>
         <div class="card-footer">
-          
-          <a [routerLink]="['/item-trade',item._id]" class="btn btn-success"><i class="fa fa-handshake-o" aria-hidden="true"></i> Trade!</a>
-          <a [routerLink]="['/item-edit', item._id]"  class="btn btn-secondary"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
-          
+          <a [routerLink]="['../item-trade',item._id]" class="btn btn-success"><i class="fa fa-handshake-o" aria-hidden="true"></i> Trade!</a>
+          <a [routerLink]="['../item-edit', item._id]"  class="btn btn-secondary"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
         </div>
       </div>
     </div>

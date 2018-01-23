@@ -60,16 +60,7 @@ router.get('/profile', isLoggedIn, function(req, res) {
       });
   
   
-// =====================================
-// LOGOUT ==============================
-// =====================================
-/*
-app.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
-});
-};
-*/
+
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
 

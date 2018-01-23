@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +8,39 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  user: any;
-  constructor(private http: HttpClient) { }
+  message: string;
+  constructor(private authService: AuthService, 
+    private router: Router) { }
   
   ngOnInit() {
-    this.http.get('/api/user/profile').subscribe(data => {
-      this.user = data;
-      console.log("got user:",this.user);
-    });
+    this.authService.checkLogIn().subscribe();
+    this.setMessage();
+  }
+
+ 
+  setMessage() {
+    this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in' : 'out');
+  }
+ 
+  login() {
+    this.message = 'Trying to log in ...';
+ 
+    this.authService.login();
+    
+      this.setMessage();
+      if (this.authService.isLoggedIn) {
+        // Get the redirect URL from our auth service
+        // If no redirect has been set, use the default
+        let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/personal/my-store';
+ 
+        // Redirect the user
+        this.router.navigate([redirect]);
+      }
+    
+    }
+ 
+  logout() {
+    this.authService.logout();
+    //this.setMessage();
   }
 }
