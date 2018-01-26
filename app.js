@@ -9,12 +9,11 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var configDB = require('./config/database.js');
 var app = express();
-
+var mongoose = require('mongoose');
 require('./config/passport')(passport); // pass passport for configuration
 
-var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-mongoose.connect(configDB.mongo.development.connectionString, { useMongoClient: true, promiseLibrary: require('bluebird') })
+mongoose.connect(configDB.mongo.devLocal.connectionString, { useMongoClient: true, promiseLibrary: require('bluebird') })
   .then(() =>  console.log('connection succesful'))
   .catch((err) => console.error(err));
 
@@ -23,7 +22,6 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
 app.use(express.static(path.join(__dirname, 'dist')));  //this is for all other than index.html
-
 
 app.use(express.static('public'));
 
@@ -58,7 +56,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.send('error');
+  res.json({error:err});
 });
 
 module.exports = app;

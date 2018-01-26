@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 
 var ItemSchema = new mongoose.Schema({
   title: String,
-  trader: String,
-  description: String,
-  condition: String,
+  user: String,     //id of trader only
+  qrCode: String,
+  image: String,      //url from the API
+  enabled: { type: Boolean, default: true },  //If true,item can be traded. if false,not. book is beign reading
   updated_date: { type: Date, default: Date.now }
 });
 

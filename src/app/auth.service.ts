@@ -18,7 +18,7 @@ export class AuthService {
 
   constructor(private http:HttpClient) { }
   isLoggedIn:boolean = false;
-  userProfile:Observable<any> = Observable.of({});
+  userProfile:Observable<any>;
   
   // store the URL so we can redirect after logging in
   redirectUrl: string;

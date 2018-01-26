@@ -30,3 +30,18 @@ pilot process of the app:
 4.the other user enter the first user inventory and choose an item he wants. otherwise, he 
 decline the "request for trade" and asked why he declined it.
 5.if trade is done, each one get the other email
+
+############################this is it:
+credit process use case:
+1.every user get 1 credit
+2.saar put all his books in store-every book has QR code
+3.Mark "open request for Trade" from saar for an item from his STORE or from the MARKET
+4.saar accept the request
+5.they get phone number of each other
+6. when they meet Saar gives his book to Mark, Mark scan the Book QR code from Saar's phone(of the book in his store)
+7.the book moved to Mark's store and it's disabled
+
+task:install mongodb ubuntu
+
+TASKS:
+    1.

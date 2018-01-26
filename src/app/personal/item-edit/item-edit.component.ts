@@ -42,14 +42,6 @@ export class ItemEditComponent implements OnInit {
       );
   }
 
-  deleteItem(id) {
-    this.itemService.deleteItem(id)
-      .subscribe(res => {
-          this.goBack();
-        }, (err) => {
-          console.log(err);
-        }
-      );
-  }
+
 
 }

@@ -3,7 +3,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md bg-primary navbar-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" [routerLink]="['/market']">
+          <a class="navbar-brand" [routerLink]="['/market']">
             <img src="/assets/brand/market_stand2.ico" width="30" height="30" class="d-inline-block align-top" alt="">
             coMarket
           </a>
@@ -20,12 +20,12 @@
             </li>
           </ul>
           <span *ngIf="authService.isLoggedIn">
-            <span class="navbar-text">Welcome {{authService.userProfile.facebook.name}} </span>
-            <span><button (click)="logout()" class="btn btn-danger btn-sm"><span class="fa fa-facebook"></span> Logout</button></span>
+            <span class="navbar-text">Welcome {{authService.userProfile.facebook.name}} | Credit: {{authService.userProfile.credit}}</span>
+            <button (click)="logout()" class="btn btn-danger btn-sm"><span class="fa fa-facebook"></span> Logout</button>
           </span>
           <span *ngIf="!(authService.isLoggedIn)">
             <span class="navbar-text">Login with: </span>
-            <span><button (click)="login()" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</button></span>
+            <button (click)="login()" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</button>
           </span>
           
         </div>

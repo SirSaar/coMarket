@@ -26,7 +26,11 @@ var userSchema = mongoose.Schema({
         token        : String,
         email        : String,
         name         : String
-    }
+    },
+    credit           : Number,
+    items            : Array,
+    location         : String,
+    phone            : String
 
 });
 

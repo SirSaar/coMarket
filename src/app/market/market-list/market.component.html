@@ -9,13 +9,11 @@
           
         <div class="card">
           <!--todo: change to asset ng directory -->
-          <img class="card-img-top" src="/assets/default_images/noPhoto.jpg" alt="No photo available" height="325" width="500">
+          <h5 class="card-header"><a href="#" type="button" class="btn-floating btn-small btn-fb">
+          <i class="fa fa-facebook"></i></a> {{"Saar Mornel"}}<small class="text-muted"> Location: {{"Tel Aviv"}}</small></h5>
+          <img class="card-img-top" src="/assets/default_images/noPhoto.jpg" alt="No photo available">
           <div class="card-body">
             <h5 class="card-title">{{item.title}}</h5>
-            <p class="card-text">Condition:{{item.condition}}
-              
-              <small>Description:{{item.description}}</small>
-            </p>
           </div>
           <div class="card-footer">
             <a [routerLink]="['/item-trade',item._id]" class="btn btn-success"><i class="fa fa-handshake-o" aria-hidden="true"></i> Trade!</a>

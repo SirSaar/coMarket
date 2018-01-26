@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { map } from 'rxjs/Operators';
 
 @Injectable()
 export class ItemService {
@@ -21,7 +22,6 @@ export class ItemService {
   
   saveItem(item): Observable<any> {
     return this.http.post<any>(this.itemApi,item,this.httpOptions);
-    //todo: add trader name and id
   }
   
   getItem(id): Observable<any> {
@@ -36,5 +36,8 @@ export class ItemService {
     return this.http.delete(this.itemApi+id);
   }
 
+  uploadItemPhoto(id,formData): Observable<any> {
+    return this.http.post(this.itemApi+'upload-photo/'+id,formData);
+  }
 }
 

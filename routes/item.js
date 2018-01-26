@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var Item = require('../models/Item.js');
+var Item = require('../models/Item');
+var upload = require('../upload')
+
+//HERE, ROUTE IS /api/item/*
 
 /* GET ALL ITEMS */
 router.get('/', function(req, res, next) {
@@ -41,6 +44,12 @@ router.delete('/:id', function(req, res, next) {
     if (err) return next(err);
     res.json(item);
   });
+});
+
+/* UPLOAD ITEM PHOTO */
+router.post("/photo-upload/:id",upload,function(req, res, next) {
+  console.log("this file uploaded: ", req.files[0]);
+  res.json(req.files[0]);
 });
 
 module.exports = router;
