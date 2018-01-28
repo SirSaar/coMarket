@@ -34,7 +34,7 @@ export class ItemCreateComponent implements OnInit {
   uploadItemPhoto(itemID) {
     const formData: any = new FormData;
     console.log("The photo to upload is:",this.photoToUpload);
-    formData.append("itemPhoto", this.photoToUpload, itemID);  //(name of file,data,name of file)
+    formData.append("itemPhoto", this.photoToUpload, itemID+'.jpg');  //(name of file,data,name of file)
     this.itemService.uploadItemPhoto(formData)
     .subscribe(files => console.log(files[0]), (err) => console.log(err));
   }
