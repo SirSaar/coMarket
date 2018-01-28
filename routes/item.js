@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Item = require('../models/Item');
-var Item = require('../models/User');
+var User = require('../models/User');
 var upload = require('../upload')
 var isLoggedIn= require('./isLoggedInFunc');
 
@@ -18,13 +18,13 @@ router.get('/', function(req, res, next) {
 
 /* GET ALL ITEMS OF USER */
 router.get('/personal',isLoggedIn, function(req, res, next) { //check
-  User.findById(req.user._id, function(err, user) {
+  User.findById(req.user.facebook.id, function(err, user) {
     if (err) return next(err);
-    let items = [];
+    let personalItems = [];
     user.items.forEach(function(item) {
-      Item.findById(req.params.id, function (err, item) {
+      Item.findById(req.user.items, function (err, item) {
         if (err) return next(err);
-        items.append(item);
+        personalItems.append(item);
       });
     });
     res.json(items);
@@ -42,7 +42,7 @@ router.get('/:id', function(req, res, next) {
 
 /* SAVE ITEM */
 router.post('/',isLoggedIn, function(req, res, next) {
-  req.body.user = req.user._id;
+  req.body.user = req.user.facebook.id;
   Item.create(req.body, function (err, item) {
     if (err) return next(err);
     res.json(item);
@@ -51,7 +51,7 @@ router.post('/',isLoggedIn, function(req, res, next) {
 
 /* UPDATE ITEM */
 router.put('/:id',isLoggedIn, function(req, res, next) {
-  req.body.user = req.user._id;
+  req.body.user = req.user.facebook.id;
   Item.findByIdAndUpdate(req.params.id, req.body, function (err, item) {
     if (err) return next(err);
     res.json(item);
@@ -60,7 +60,7 @@ router.put('/:id',isLoggedIn, function(req, res, next) {
 
 /* DELETE ITEM */
 router.delete('/:id',isLoggedIn, function(req, res, next) {
-  req.body.user = req.user._id;
+  req.body.user = req.user.facebook.id;
   Item.findByIdAndRemove(req.params.id, req.body, function (err, item) {
     if (err) return next(err);
     res.json(item);

@@ -17,7 +17,7 @@ mongoose.connect(configDB.mongo[configDB.dbState].connectionString, { useMongoCl
   .then(() =>  console.log('connection succesful'))
   .catch((dbErr) => {
     console.error(dbErr);
-    res.err(dbErr);
+    //todo:res error
   });
 
 app.use(logger('dev'));
