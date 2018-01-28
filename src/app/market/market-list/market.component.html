@@ -3,20 +3,21 @@
     <!-- Page Heading -->
     <h3 class="my-4">{{title}}</h3>
     <!-- Page Features -->
-    <div class="row text-center" *ngFor="let rowItems of (items | split:4)"> 
+    <div class="row text-center"> 
       
-      <div class="col-lg-3 col-md-6 mb-4" *ngFor="let item of rowItems[0]">
-          
-        <div class="card">
-          <!--todo: change to asset ng directory -->
-          <h5 class="card-header"><a href="#" type="button" class="btn-floating btn-small btn-fb">
-          <i class="fa fa-facebook"></i></a> {{"Saar Mornel"}}<small class="text-muted"> Location: {{"Tel Aviv"}}</small></h5>
-          <img class="card-img-top" src="/assets/default_images/noPhoto.jpg" alt="No photo available">
+      <div class="col-lg-2 col-md-3 mb-4" *ngFor="let item of items | async">  
+        {{let user = getUserByID(item.user) | async}}
+        <div class="card h-100">
+          <h6 class="card-header">
+          {{user.facebook.name}}<hr><small class="text-muted">{{user.facebook.location}}</small></h6>
+          <img class="card-img-top" src="images/items/{{item._id}}" alt="No photo available" 
+            onerror="this.onerror=null;this.src='images/noPhoto.jpg';"/>
           <div class="card-body">
             <h5 class="card-title">{{item.title}}</h5>
           </div>
           <div class="card-footer">
-            <a [routerLink]="['/item-trade',item._id]" class="btn btn-success"><i class="fa fa-handshake-o" aria-hidden="true"></i> Trade!</a>
+            <a [routerLink]="['/trade-item',item._id]" class="btn btn-success"><i class="fa fa-handshake-o" aria-hidden="true"></i> Trade!</a>
+            <a [routerLink]="['/request-item',item._id]" class="btn btn-primary"><i class="fa fa-comment" aria-hidden="true"></i> Send Request</a>
           </div>
         </div>
       </div>

@@ -13,9 +13,12 @@ var mongoose = require('mongoose');
 require('./config/passport')(passport); // pass passport for configuration
 
 mongoose.Promise = require('bluebird');
-mongoose.connect(configDB.mongo.devLocal.connectionString, { useMongoClient: true, promiseLibrary: require('bluebird') })
+mongoose.connect(configDB.mongo[configDB.dbState].connectionString, { useMongoClient: true, promiseLibrary: require('bluebird') })
   .then(() =>  console.log('connection succesful'))
-  .catch((err) => console.error(err));
+  .catch((dbErr) => {
+    console.error(dbErr);
+    res.err(dbErr);
+  });
 
 app.use(logger('dev'));
 app.use(cookieParser()); // read cookies (needed for auth)

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ItemService } from '../../item.service';
+import { Observable } from 'rxjs/Observable';
+import { UserService } from '../../user.service';
 
 @Component({
   selector: 'app-market',
@@ -10,21 +12,16 @@ import { ItemService } from '../../item.service';
 })
 export class MarketComponent implements OnInit {
 
-  items: any[];   //array got from rest api
+  items: Observable<any[]>;   //array got from rest api
   title: string;
   constructor(private router: Router,private route: ActivatedRoute,
-  private itemService:ItemService) { }
+  private itemService:ItemService, private userService:UserService) { }
 
   ngOnInit() {
     this.title=this.route.snapshot.data.title;
-    this.items=[];
-    
-    this.getItems();
+    this.items=this.itemService.getItems();   
   }
 
-  getItems():void {
-    this.itemService.getItems().
-    subscribe(items => this.items = items);
-  }
+  //getUserByID
 
 }

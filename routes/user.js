@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var mongoose = require('mongoose');
+var isLoggedIn= require('./isLoggedInFunc');
+// this is "/user" route
 // var Item = require('../models/Item.js');
 /*
 app.get('/login', function(req, res) {
@@ -38,40 +40,33 @@ router.get('/profile', isLoggedIn, function(req, res) {
 });
 
 
-  // =====================================
-    // FACEBOOK ROUTES =====================
-    // =====================================
-    // route for facebook authentication and login
-    router.get('/auth/facebook', passport.authenticate('facebook', { 
-        scope : ['public_profile', 'email']
-      }));
-  
-      // handle the callback after facebook has authenticated the user
-      router.get('/auth/facebook/callback',
-          passport.authenticate('facebook', {
-              successRedirect : '/',
-              failureRedirect : '/'
-          }));
-  
-      // route for logging out
-      router.get('/logout', function(req, res) {
-          req.logout();
-          res.redirect('/');
-      });
-  
-  
+// =====================================
+// FACEBOOK ROUTES =====================
+// =====================================
+// route for facebook authentication and login
+router.get('/auth/facebook', passport.authenticate('facebook', { 
+    scope : ['public_profile', 'email']
+}));
 
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
+// handle the callback after facebook has authenticated the user
+router.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+        successRedirect : '/',
+        failureRedirect : '/'
+}));
 
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
-
-    // if they aren't redirect them to the home page
-    //res.redirect('/');  //todo:error
-    res.json();
-}
+// route for logging out
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+  
+router.get('/:id', function(req, res, next) {       //todo: return only public values
+    User.findById(id, function(err, user) {
+        if(err) return next(err);
+        return res.json(user);
+    });
+});
 
 
 module.exports = router;

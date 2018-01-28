@@ -10,14 +10,13 @@
     
     <div class="col-lg-2 col-md-3 mb-4" *ngFor="let item of items | async">  
       <div class="card h-100">
-          <!--todo: change to asset ng directory -->
-          <img class="card-img-top" src= {{ 'public/images/items/'+item._id }} alt="No photo available" 
-            onerror="this.onerror=null;this.src='/public/images/noPhoto.jpg';"/>
+          <img class="card-img-top" src="images/items/{{item._id}}" alt="No photo available" 
+            onerror="this.onerror=null;this.src='images/noPhoto.jpg';"/>
           <div class="card-body">
             <h5 class="card-title">{{item.title}}</h5>
           </div>
           <div class="card-footer">
-            <a [routerLink]="['../item-qrcode', item._id]"  class="btn btn-secondary">
+            <a [routerLink]="['../item-qrcode', item._id]"  class="btn btn-secondary btn-sm">
               <i class="fa fa-qrcode" aria-hidden="true"></i> QR Code</a>
             <a class="btn btn-danger btn-sm" (click)="deleteItem(item._id)">
               <i class="fa fa-trash-o"></i> Delete</a>  

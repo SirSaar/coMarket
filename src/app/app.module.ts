@@ -17,6 +17,7 @@ import { PersonalModule } from './personal/personal.module';  //private authoriz
 import { Router } from '@angular/router';
 import { AuthGuard } from './auth-guard.service';
 import { AuthService } from './auth.service';
+import { UserService } from './user.service';
  
 @NgModule({
   declarations: [  //cascades only to current module
@@ -32,7 +33,7 @@ import { AuthService } from './auth.service';
     PersonalModule,
     AppRoutingModule
   ],
-  providers: [{provide: APP_BASE_HREF, useValue : '/'}, ItemService, AuthGuard, AuthService ],  //cascade to the child modules
+  providers: [{provide: APP_BASE_HREF, useValue : '/'}, ItemService, AuthGuard, AuthService, UserService ],  //cascade to the child modules
   bootstrap: [AppComponent]
 })
 export class AppModule { 

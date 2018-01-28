@@ -19,6 +19,10 @@ export class ItemService {
   getItems(): Observable<any[]> {
     return this.http.get<any[]>(this.itemApi);
   };
+
+  getMyItems(): Observable<any[]> {
+    return this.http.get<any[]>(this.itemApi+'personal');
+  }
   
   saveItem(item): Observable<any> {
     return this.http.post<any>(this.itemApi,item,this.httpOptions);
@@ -36,8 +40,9 @@ export class ItemService {
     return this.http.delete(this.itemApi+id);
   }
 
-  uploadItemPhoto(id,formData): Observable<any> {
-    return this.http.post(this.itemApi+'upload-photo/'+id,formData);
+  uploadItemPhoto(formData): Observable<any> {
+    return this.http.post(this.itemApi+'upload-photo/',formData);
   }
+
 }
 

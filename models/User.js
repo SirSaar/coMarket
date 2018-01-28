@@ -27,7 +27,7 @@ var userSchema = mongoose.Schema({
         email        : String,
         name         : String
     },
-    credit           : Number,
+    credit           : { Type:Number, default:0 },
     items            : Array,
     location         : String,
     phone            : String
