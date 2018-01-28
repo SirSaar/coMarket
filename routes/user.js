@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var mongoose = require('mongoose');
 var isLoggedIn= require('./isLoggedInFunc');
+var User     = require('../models/User');
 // this is "/user" route
 // var Item = require('../models/Item.js');
 /*
@@ -61,10 +62,10 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
 });
   
-router.get('/:id', function(req, res, next) {       //todo: return only public values
-    User.findById(id, function(err, user) {
+router.get('/:id', function(req, res, next) {       //todo: return only public values //api: return user by id
+    User.findById(req.params.id, function(err, user) {
         if(err) return next(err);
-        return res.json(user);
+        res.json(user);
     });
 });
 

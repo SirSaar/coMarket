@@ -30,9 +30,12 @@ var userSchema = mongoose.Schema({
     credit           : { Type:Number, default:0 },
     items            : Array,
     location         : String,
-    phone            : String
+    phone            : String,
 
-});
+    },
+    {
+    usePushEach: true
+  });
 
 // methods ======================
 // generating a hash

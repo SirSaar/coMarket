@@ -40,8 +40,6 @@ export class ItemCreateComponent implements OnInit {
   }
 
   saveItem(){   //todo: add item to user
-    //this.item.user=this.authService.userProfile['_id'];
-    //this.item.qrCode="random";
     this.itemService.saveItem(this.item).subscribe(
       res => {    //res is the object that returns
         this.uploadItemPhoto(res['_id']);

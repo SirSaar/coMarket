@@ -6,10 +6,9 @@
     <div class="row text-center"> 
       
       <div class="col-lg-2 col-md-3 mb-4" *ngFor="let item of items | async">  
-        {{getUserByItem(item)}}
         <div class="card h-100">
           <h6 class="card-header">
-          {{user.facebook.name | uppercase}}<hr><small class="text-muted">{{user.location | uppercase}}</small></h6>
+          {{item.userProfile.name | uppercase}}<hr><small class="text-muted">{{item.userProfile.location | uppercase}}</small></h6>
           <img class="card-img-top" src="images/items/{{item._id}}" alt="No photo available" 
             onerror="this.onerror=null;this.src='images/noPhoto.jpg';"/>
           <div class="card-body">

@@ -9,25 +9,35 @@ var isLoggedIn= require('./isLoggedInFunc');
 //HERE, ROUTE IS /api/item/*
 
 /* GET ALL ITEMS */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res, next) {    //check the returns
   Item.find(function (err, items) {
     if (err) return next(err);
-    res.json(items);
+    let detailedItems = [];
+    return items.forEach(function(item) {
+      return User.findById(item.user, function(err, user) {
+        if(err) return next(err);
+        item.userProfile= {};
+        item.userProfile.location= user.location;
+        item.userProfile.name= user.name;
+        detailedItems.push(item);
+      });
+    });
+    res.json(detailedItems);
   });
 });
 
 /* GET ALL ITEMS OF USER */
 router.get('/personal',isLoggedIn, function(req, res, next) { //check
-  User.findById(req.user.facebook.id, function(err, user) {
+  User.findById(req.user._id, function(err, user) {
     if (err) return next(err);
     let personalItems = [];
     user.items.forEach(function(item) {
       Item.findById(req.user.items, function (err, item) {
         if (err) return next(err);
-        personalItems.append(item);
+        personalItems.push(item);
       });
     });
-    res.json(items);
+    res.json(personalItems);
   });
 
 });
@@ -36,22 +46,35 @@ router.get('/personal',isLoggedIn, function(req, res, next) { //check
 router.get('/:id', function(req, res, next) {
   Item.findById(req.params.id, function (err, item) {
     if (err) return next(err);
+    User.findById(item.user, function(err, user) {
+      if(err) return next(err);
+      item.userProfile.location= user.location;
+      item.userProfile.name= user.name;
+    });
     res.json(item);
   });
 });
 
 /* SAVE ITEM */
 router.post('/',isLoggedIn, function(req, res, next) {
-  req.body.user = req.user.facebook.id;
+  req.body.user = req.user._id;
   Item.create(req.body, function (err, item) {
     if (err) return next(err);
-    res.json(item);
+    //update user- to add item to it
+    return User.findById(item.user,function(err, user) {
+      if(err) return next(err);
+      user.items.push(item._id);
+      user.save();
+      res.json(item);
+    });
+    
   });
 });
 
+
 /* UPDATE ITEM */
 router.put('/:id',isLoggedIn, function(req, res, next) {
-  req.body.user = req.user.facebook.id;
+  req.body.user = req.user._id;
   Item.findByIdAndUpdate(req.params.id, req.body, function (err, item) {
     if (err) return next(err);
     res.json(item);
@@ -60,10 +83,16 @@ router.put('/:id',isLoggedIn, function(req, res, next) {
 
 /* DELETE ITEM */
 router.delete('/:id',isLoggedIn, function(req, res, next) {
-  req.body.user = req.user.facebook.id;
+  req.body.user = req.user._id;
   Item.findByIdAndRemove(req.params.id, req.body, function (err, item) {
     if (err) return next(err);
-    res.json(item);
+    return User.findById(item.user,function(err, user) {
+      if(err) return next(err);
+      user.items.filter(user.items !== item._id);
+      user.save();
+      res.json(item);
+    });
+    
   });
 });
 

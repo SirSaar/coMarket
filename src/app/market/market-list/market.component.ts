@@ -14,17 +14,12 @@ export class MarketComponent implements OnInit {
 
   items: Observable<any[]>;   //array got from rest api
   title: string;
-  user: any= {};
   constructor(private router: Router,private route: ActivatedRoute,
   private itemService:ItemService, private userService:UserService) { }
 
   ngOnInit() {
     this.title=this.route.snapshot.data.title;
     this.items=this.itemService.getItems();   
-  }
-
-  getUserByItem(item): void {
-    this.user = this.userService.getUserByID(item.user).subscribe();
   }
 
 
