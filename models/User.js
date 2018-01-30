@@ -27,10 +27,11 @@ var userSchema = mongoose.Schema({
         email        : String,
         name         : String
     },
-    credit           : { Type:Number, default:0 },
+    credit           : { type: Number, default: 0 },
     items            : Array,
-    location         : String,
+    location         : { type: String, default: '' },
     phone            : String,
+    updated_date: { type: Date, default: Date.now }
 
     },
     {

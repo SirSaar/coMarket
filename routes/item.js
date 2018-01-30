@@ -11,35 +11,42 @@ var isLoggedIn= require('./isLoggedInFunc');
 /* GET ALL ITEMS */
 router.get('/', function(req, res, next) {    //check the returns
   Item.find(function (err, items) {
-    if (err) return next(err);
-    let detailedItems = [];
-    return items.forEach(function(item) {
-      return User.findById(item.user, function(err, user) {
-        if(err) return next(err);
-        item.userProfile= {};
-        item.userProfile.location= user.location;
-        item.userProfile.name= user.name;
-        detailedItems.push(item);
+    if (err) { return console.log(err); next(err); }
+    var detailedItems = [];
+    console.log('Get items api,begin with:',detailedItems,',items :',items);
+    items.forEach(function(item) {
+      console.log('Get items api:iterator:',detailedItems, "current item is:",item);
+      if(!item.enabled) return;
+      console.log("id of item's user",item.user);
+      User.findById(item.user, function(err, user) {
+        console.log("user of item is:", user);
+        if(err) { return console.log(err); next(err); }
+        detailedItem= JSON.parse(JSON.stringify(item));
+        //console.log("#1 title:",detailedItem.title);
+        detailedItem.userProfile= {};
+        detailedItem.userProfile.location= user.location;
+        detailedItem.userProfile.name= user.facebook.name;
+        console.log("push detailed item:",detailedItem);
+        detailedItems.push(detailedItem);
+        console.log("detailedItems",detailedItems);
+
       });
     });
+    console.log('finished items:',detailedItems);
     res.json(detailedItems);
   });
 });
 
-/* GET ALL ITEMS OF USER */
+/* GET ALL ITEMS OF LOGGED USER */
 router.get('/personal',isLoggedIn, function(req, res, next) { //check
-  User.findById(req.user._id, function(err, user) {
-    if (err) return next(err);
     let personalItems = [];
-    user.items.forEach(function(item) {
-      Item.findById(req.user.items, function (err, item) {
+    req.user.items.forEach(function(itemID) {
+      Item.findById(itemID, function (err, item) {
         if (err) return next(err);
         personalItems.push(item);
       });
-    });
+    }); //end loop
     res.json(personalItems);
-  });
-
 });
 
 /* GET SINGLE ITEM BY ID */
@@ -48,6 +55,7 @@ router.get('/:id', function(req, res, next) {
     if (err) return next(err);
     User.findById(item.user, function(err, user) {
       if(err) return next(err);
+      item.userProfile={};
       item.userProfile.location= user.location;
       item.userProfile.name= user.name;
     });
@@ -61,7 +69,7 @@ router.post('/',isLoggedIn, function(req, res, next) {
   Item.create(req.body, function (err, item) {
     if (err) return next(err);
     //update user- to add item to it
-    return User.findById(item.user,function(err, user) {
+    User.findById(item.user,function(err, user) {
       if(err) return next(err);
       user.items.push(item._id);
       user.save();
@@ -86,12 +94,12 @@ router.delete('/:id',isLoggedIn, function(req, res, next) {
   req.body.user = req.user._id;
   Item.findByIdAndRemove(req.params.id, req.body, function (err, item) {
     if (err) return next(err);
-    return User.findById(item.user,function(err, user) {
-      if(err) return next(err);
-      user.items.filter(user.items !== item._id);
-      user.save();
-      res.json(item);
-    });
+    User.findById(item.user,function(err, user) {
+    if(err) return next(err);
+    user.items.filter(user.items !== item._id);
+    user.save();
+    res.json(item);
+  });
     
   });
 });
