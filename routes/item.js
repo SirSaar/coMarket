@@ -9,44 +9,50 @@ var isLoggedIn= require('./isLoggedInFunc');
 //HERE, ROUTE IS /api/item/*
 
 /* GET ALL ITEMS */
+//todo: try add streams
+//todo: change model arch to nested models and then fetch data 
+//BE AWARE that mongoose querying are async-only the callback func is sync
 router.get('/', function(req, res, next) {    //check the returns
-  Item.find(function (err, items) {
+  var detailedItems = [];
+  Item.find().lean().exec(function (err, items) {
     if (err) { return console.log(err); next(err); }
-    var detailedItems = [];
     console.log('Get items api,begin with:',detailedItems,',items :',items);
-    items.forEach(function(item) {
+    items.forEach(function(item,index) {
       console.log('Get items api:iterator:',detailedItems, "current item is:",item);
       if(!item.enabled) return;
-      console.log("id of item's user",item.user);
       User.findById(item.user, function(err, user) {
         console.log("user of item is:", user);
         if(err) { return console.log(err); next(err); }
-        detailedItem= JSON.parse(JSON.stringify(item));
+        detailedItem= item;
         //console.log("#1 title:",detailedItem.title);
         detailedItem.userProfile= {};
         detailedItem.userProfile.location= user.location;
         detailedItem.userProfile.name= user.facebook.name;
-        console.log("push detailed item:",detailedItem);
+        console.log("current detailed item:",detailedItem);
         detailedItems.push(detailedItem);
-        console.log("detailedItems",detailedItems);
-
+        
+        if(index === items.length-1) {
+          res.json(detailedItems);
+          console.log('final detailed items:',detailedItems);
+        }
       });
     });
-    console.log('finished items:',detailedItems);
-    res.json(detailedItems);
   });
 });
 
 /* GET ALL ITEMS OF LOGGED USER */
 router.get('/personal',isLoggedIn, function(req, res, next) { //check
-    let personalItems = [];
-    req.user.items.forEach(function(itemID) {
+    var personalItems = [];
+    req.user.items.forEach(function(itemID, index) {
       Item.findById(itemID, function (err, item) {
         if (err) return next(err);
         personalItems.push(item);
+        if(index === req.user.items.length-1) {
+          res.json(personalItems);
+          console.log('final personal items:',personalItems);
+        }
       });
     }); //end loop
-    res.json(personalItems);
 });
 
 /* GET SINGLE ITEM BY ID */
@@ -58,8 +64,8 @@ router.get('/:id', function(req, res, next) {
       item.userProfile={};
       item.userProfile.location= user.location;
       item.userProfile.name= user.name;
+      res.json(item);
     });
-    res.json(item);
   });
 });
 
@@ -91,15 +97,20 @@ router.put('/:id',isLoggedIn, function(req, res, next) {
 
 /* DELETE ITEM */
 router.delete('/:id',isLoggedIn, function(req, res, next) {
-  req.body.user = req.user._id;
-  Item.findByIdAndRemove(req.params.id, req.body, function (err, item) {
+  Item.findByIdAndRemove(req.params.id).lean().exec(function (err, item) {
     if (err) return next(err);
-    User.findById(item.user,function(err, user) {
-    if(err) return next(err);
-    user.items.filter(user.items !== item._id);
-    user.save();
-    res.json(item);
-  });
+    User.findById(item.user).lean().exec(function(err, user) {
+      if(err) return next(err);
+      console.log("typeof user items:",typeof(user.items));
+      //var updatedUser = user.toObject();   //mongoose query returns "Mongoose Document object"
+      console.log("user.items:",user.items,",item._id",item._id);
+      const userItems= { items : user.items.filter(function(itemID) { return (itemID != item._id) }) };   //delete item from array of items id
+      console.log("The updated user items is:",userItems);
+      User.findByIdAndUpdate(user._id,userItems, function(err, user) {
+        if(err) return next(err);
+        res.json(item);
+      });
+    });
     
   });
 });

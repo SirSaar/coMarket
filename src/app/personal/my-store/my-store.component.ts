@@ -27,7 +27,7 @@ export class MyStoreComponent implements OnInit {
     this.itemService.deleteItem(id)
       .subscribe(res => {
         //delete from this.items
-        this.items.subscribe();
+        this.items.subscribe((err) => console.log(err));
         }, (err) => {
           console.log(err);
         }

@@ -28,7 +28,7 @@ var userSchema = mongoose.Schema({
         name         : String
     },
     credit           : { type: Number, default: 0 },
-    items            : Array,
+    items            : { type: Array, default: [] },
     location         : { type: String, default: '' },
     phone            : String,
     updated_date: { type: Date, default: Date.now }
