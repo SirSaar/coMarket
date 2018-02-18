@@ -25,8 +25,7 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
 app.use(express.static(path.join(__dirname, 'dist')));  //this is for all other than index.html
-
-app.use(express.static('public'));
+app.use(express.static('public'));              
 
 // required for passport
 app.use(session({    
@@ -53,6 +52,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  console.error(err.stack);
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

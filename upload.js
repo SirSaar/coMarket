@@ -10,6 +10,13 @@ var Storage = multer.diskStorage({
     }
   });
   
-  var upload = multer({ storage:Storage }).array("itemPhoto", 1);  //name of field and number of uploads
+  var upload = function(req,res,next) {
+    multer({ 
+      storage:Storage
+    })
+    .single("itemPhoto"); 
+    console.log("this file uploaded: ", req.files[0]);
+    res.json(req.files[0]);
+ } //name of field and number of uploads
 
   module.exports = upload;

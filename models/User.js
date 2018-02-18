@@ -1,10 +1,11 @@
 // load the things we need
 var mongoose = require('mongoose');
+var Item = require('./Item');
 var bcrypt   = require('bcrypt-nodejs');
-
+var Schema = mongoose.Schema;
 // define the schema for our user model
-var userSchema = mongoose.Schema({
-
+var userSchema = Schema({
+    _id              : { type: Schema.Types.ObjectId, default: mongoose.Types.ObjectId() },
     local            : {
         email        : String,
         password     : String,
@@ -27,16 +28,16 @@ var userSchema = mongoose.Schema({
         email        : String,
         name         : String
     },
-    credit           : { type: Number, default: 0 },
-    items            : { type: Array, default: [] },
+    name             : {  type: String },
+    credit           : { type: Number, default: 10 },
+    items            : [{ type: Schema.Types.ObjectId, ref: 'Item' }],
     location         : { type: String, default: '' },
     phone            : String,
     updated_date: { type: Date, default: Date.now }
 
-    },
-    {
+}, {
     usePushEach: true
-  });
+});
 
 // methods ======================
 // generating a hash
